@@ -1,0 +1,37 @@
+{
+  "name": "pomo-cli",
+  "version": "0.1.0",
+  "description": "A minimal Pomodoro timer for the terminal",
+  "type": "module",
+  "bin": {
+    "pomo": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "prettier --write .",
+    "prepublishOnly": "pnpm build && pnpm test"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "node-notifier": "^10.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/node-notifier": "^8.0.5",
+    "@vitest/coverage-v8": "^1.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "keywords": ["pomodoro", "timer", "cli", "productivity", "terminal"],
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}
