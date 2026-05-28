@@ -15,7 +15,8 @@ Requires Node.js ≥ 18.
 ```bash
 pomo start              # Start a 25-min Pomodoro
 pomo start "Deep work"  # Start with a label
-pomo status             # Check time remaining
+pomo status             # Check time remaining (one-shot)
+pomo watch              # Live display — updates every second
 pomo stop               # Stop the current session
 pomo history            # Show last 10 sessions
 pomo history 20         # Show last 20 sessions
@@ -26,7 +27,7 @@ pomo config workDurationMs 1500000  # Set work duration to 25 min (ms)
 ## How it works
 
 - No daemon — timer state is stored in `~/.pomo/state.json`
-- Run `pomo status` to poll progress and trigger notifications when a session ends
+- `pomo watch` runs a live display that refreshes every second and auto-advances to the next session when time is up
 - After 4 Pomodoros, a long break (15 min) is triggered automatically
 - Desktop notifications via `node-notifier` with terminal bell fallback
 
