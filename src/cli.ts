@@ -5,6 +5,7 @@ import { stopCommand } from './commands/stop.js'
 import { statusCommand } from './commands/status.js'
 import { historyCommand } from './commands/history.js'
 import { configCommand } from './commands/config.js'
+import { watchCommand } from './commands/watch.js'
 
 const program = new Command()
 
@@ -37,5 +38,10 @@ program
   .command('config [key] [value]')
   .description('Show or set configuration values')
   .action((key?: string, value?: string) => configCommand(key, value))
+
+program
+  .command('watch')
+  .description('Live display — updates every second, auto-advances on session end')
+  .action(() => watchCommand())
 
 program.parse()
