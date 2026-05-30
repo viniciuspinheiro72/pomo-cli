@@ -3,6 +3,7 @@ import {
   computeRemaining,
   formatDuration,
   isExpired,
+  isPaused,
   sessionTypeLabel,
   getNextBreakType,
   createSession,
@@ -35,6 +36,15 @@ export function statusCommand(): void {
     }
     state.history.push(entry)
 
+    if (session.manual) {
+      state.activeSession = null
+      writeState(state)
+      const finished = sessionTypeLabel(session.type)
+      notify(`${finished} complete!`, 'Run pomo start when ready.')
+      console.log(`✅ ${finished} complete! Run 'pomo start' to begin the next interval.`)
+      return
+    }
+
     const nextType =
       session.type === 'work'
         ? getNextBreakType(completedPomodoros, config.pomodorosPerCycle)
@@ -54,5 +64,6 @@ export function statusCommand(): void {
   const remaining = computeRemaining(session)
   const type = sessionTypeLabel(session.type)
   const label = session.label ? ` — "${session.label}"` : ''
-  console.log(`${type}${label} — ${formatDuration(remaining)} remaining.`)
+  const pausedHint = isPaused(session) ? ' (paused)' : ''
+  console.log(`${type}${label} — ${formatDuration(remaining)} remaining${pausedHint}.`)
 }

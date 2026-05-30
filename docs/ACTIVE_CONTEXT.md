@@ -4,26 +4,30 @@
      It is the first doc read each session to restore project state. -->
 
 ## Current Focus
-Project just initialized — ready to begin implementation of the MVP commands (start, stop, status).
+Pause/resume and sound alert shipped. Timer is now feature-complete for daily use.
 
 ## In Progress
-- Nothing yet — project is at initialization stage
+- Nothing
 
 ## Blockers
 - None
 
 ## Next Steps
-1. Scaffold `package.json`, `tsconfig.json`, `vitest.config.ts`
-2. Implement `src/domain/session.ts` — Session entity and timer logic
-3. Implement `src/storage/state.ts` — read/write state.json
-4. Implement `src/commands/start.ts` — first MVP command
-5. Write unit tests for domain logic
+- `pomo stats` — weekly/monthly summary (P2)
+- Shell prompt integration (P2)
 
 ## Significant Decisions
 - 2026-05-27 — Stateless CLI architecture chosen (no daemon) — see ADR-001
+- 2026-05-27 — `--manual` flag stored on `ActiveSession`; `status` and `watch` check it before auto-advancing
+- 2026-05-30 — Pause implemented as `pausedAt` timestamp on `ActiveSession`; resume shifts `startedAt` forward so all downstream logic stays unchanged
+- 2026-05-30 — Pause/resume exposed as keypresses (`p`/space) inside `pomo watch` only — no separate CLI commands
+- 2026-05-30 — Sound uses `spawnSync` with `paplay`/`aplay` on Linux, `afplay` on macOS, 3× bell fallback; no new npm deps
 
 ## Recent Context
 - 2026-05-27 — Project initialized with init-docs. All documentation scaffolded.
+- 2026-05-27 — Implemented `start`, `stop`, `status`, `history`, `config`, `watch` commands.
+- 2026-05-27 — Added `--manual` / `-m` flag to `pomo start` — disables auto-advance on session expiry.
+- 2026-05-30 — Added pause/resume (keypress in watch) and sound alert on session end.
 
 ## Open Questions
 - Should `pomo stop` log an incomplete session to history? (see PRD Open Questions)

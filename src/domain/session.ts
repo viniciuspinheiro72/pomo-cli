@@ -9,11 +9,32 @@ export function getDurationMs(type: SessionType, config: PomoConfig): number {
 }
 
 export function computeRemaining(session: ActiveSession): number {
-  return session.durationMs - (Date.now() - session.startedAt)
+  const elapsed = session.pausedAt
+    ? session.pausedAt - session.startedAt
+    : Date.now() - session.startedAt
+  return session.durationMs - elapsed
 }
 
 export function isExpired(session: ActiveSession): boolean {
+  if (session.pausedAt) return false
   return computeRemaining(session) <= 0
+}
+
+export function isPaused(session: ActiveSession): boolean {
+  return session.pausedAt !== undefined
+}
+
+export function pauseSession(session: ActiveSession): ActiveSession {
+  if (session.pausedAt) return session
+  return { ...session, pausedAt: Date.now() }
+}
+
+export function resumeSession(session: ActiveSession): ActiveSession {
+  if (!session.pausedAt) return session
+  const pausedDuration = Date.now() - session.pausedAt
+  const resumed = { ...session, startedAt: session.startedAt + pausedDuration }
+  delete resumed.pausedAt
+  return resumed
 }
 
 /** Returns the break type that follows a completed Pomodoro cycle. */
@@ -26,6 +47,7 @@ export function createSession(
   config: PomoConfig,
   label?: string,
   completedPomodoros = 0,
+  manual = false,
 ): ActiveSession {
   return {
     startedAt: Date.now(),
@@ -33,6 +55,7 @@ export function createSession(
     label,
     completedPomodoros,
     durationMs: getDurationMs(type, config),
+    ...(manual && { manual: true }),
   }
 }
 
