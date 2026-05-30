@@ -32,7 +32,7 @@ describe('renderFrame', () => {
   it('shows idle message when no session is active', () => {
     const frame = renderFrame(emptyState, DEFAULT_CONFIG)
     expect(frame).toContain('No active session')
-    expect(frame).toContain('Ctrl+C')
+    expect(frame).toContain('q to exit')
   })
 
   it('shows session type and time remaining', () => {

@@ -31,9 +31,14 @@ There is no maintained, cross-platform CLI Pomodoro tool with desktop notificati
 - `pomo history` — show last N sessions with durations and dates
 - `pomo config` — set custom session/break durations
 - Session labels (`pomo start "Writing tests"`)
+- Manual mode (`pomo start --manual` / `-m`) — disables auto-advance so the user controls when each interval begins
+
+### Shipped post-MVP — P1
+- `pomo watch` — live display with progress bar, auto-advance, keypress controls
+- Pause / resume via `p` / `Space` in `pomo watch` — state persists to disk
+- Sound alert on session end (system audio + desktop notification + terminal bell fallback)
 
 ### Nice-to-have — P2
-- Sound alert as alternative to notification
 - `pomo stats` — weekly/monthly summary
 - Shell prompt integration (show remaining time in PS1)
 

@@ -6,6 +6,8 @@ export interface ActiveSession {
   label?: string
   completedPomodoros: number
   durationMs: number
+  manual?: boolean
+  pausedAt?: number
 }
 
 export interface HistoryEntry {
